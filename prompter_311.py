@@ -12,22 +12,21 @@ def getFileName ():
     listDir = []
     for f in os.listdir('.'):
         if (f[-4:].lower() == ".csv"):
-            print f
             listDict = {'idx': len(listDir), 'fname': f}
             listDir.append (listDict)
 
     if len(listDir) == 0:
         return 'q'
 
-    print (listDir)
+    #print (listDir)
     
     # get filename to use
     fname = ''
     while True:
         for listDict in listDir:
             print ("Type " + str(listDict['idx']) + " to use " + listDict['fname'] + ": ")
-	response = raw_input()
-	if int(response) < len(listDir):
+        response = input()
+        if int(response) < len(listDir):
             selected = listDir[int(response)]
-	    print
-	    return selected['fname']
+            print ()
+            return selected['fname']

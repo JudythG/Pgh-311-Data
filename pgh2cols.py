@@ -1,3 +1,6 @@
+# Future improvements:
+# * crashes on invalid key type, shouldn't
+
 import csv
 import operator
 import io
@@ -20,40 +23,40 @@ def countCalls (f_in, dictReader, colHeader1, colHeader2):
 
     callsDict = {}
     for row in dictReader:
-	fieldType1 = row[colHeader1]
-	fieldType2 = row[colHeader2]
+        fieldType1 = row[colHeader1]
+        fieldType2 = row[colHeader2]
 
 	# if field empty, skip to next row
-	if fieldType1  == '' or fieldType2 == '': 
-	    continue 
+        if fieldType1  == '' or fieldType2 == '': 
+            continue 
 
 	# side effect of seeking to start of file
-	if fieldType1 == colHeader1:
-	    continue
+        if fieldType1 == colHeader1:
+            continue
 
-	if fieldType1 in callsDict.keys():
-	    if fieldType2 in callsDict[fieldType1].keys():
-	        callsDict[fieldType1][fieldType2] += 1
-	    else:
-		tempDict = {}
-		tempDict [fieldType2] = 0
-		callsDict[fieldType1][fieldType2] = 1
-	else:
-	    tempDict = {}
-	    tempDict [fieldType2] = 1
-	    callsDict[fieldType1] = tempDict
+        if fieldType1 in callsDict.keys():
+            if fieldType2 in callsDict[fieldType1].keys():
+                callsDict[fieldType1][fieldType2] += 1
+            else:
+                tempDict = {}
+                tempDict [fieldType2] = 0
+                callsDict[fieldType1][fieldType2] = 1
+        else:
+            tempDict = {}
+            tempDict [fieldType2] = 1
+            callsDict[fieldType1] = tempDict
     return callsDict
 
 def printCalls (callsDict):
     sorted1 = sorted (callsDict.items())
     for k1, v1 in sorted1:
-	print k1
+        print (k1)
 	
         # reverse sort the data so highest number of calls at top
         sorted2 = sorted(v1.items(), key=operator.itemgetter(1), reverse=True)
-	for k2, v2 in sorted2:
-		print "\t" + k2 + ": count is " + str (v2)
-    print
+        for k2, v2 in sorted2:
+            print ("\t" + k2 + ": count is " + str (v2))
+    print ()
 
 # main
 
@@ -64,21 +67,21 @@ with f_in:
 
     # store column headers into headers to print as list for user to 
     # select from
-    header = reader.next ()
+    header = next(reader)
     headers = 'list of field: '
     for k in header.keys():
-	headers += k + ' '
+        headers += k + ' '
 
     while True:
-        print headers
-        response1 = raw_input ("Enter field name or q to quit: ")
-	if response1 == 'q':
-	    break
-        response2 = raw_input ("Enter field name or q to quit: ")
-	if response2 == 'q':
-	    break
+        print (headers)
+        response1 = input ("Enter first field name or q to quit: ")
+        if response1 == 'q':
+            break
+        response2 = input ("Enter second field name or q to quit: ")
+        if response2 == 'q':
+            break
 
         if response1.upper() in headers and response2.upper() in headers:
-	    callsDict = countCalls (f_in, reader, response1.upper(), response2.upper())
+            callsDict = countCalls (f_in, reader, response1.upper(), response2.upper())
             printCalls (callsDict)
 

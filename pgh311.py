@@ -1,5 +1,3 @@
-# Change to test git push
-
 import csv
 import operator
 import io
@@ -9,7 +7,7 @@ import prompter_311
 # so I created a function to count the number of calls by column header
 # name.
 #
-# Since the assignments were all variantes of count the number of calls
+# Since the assignments were all variants of count the number of calls
 # for this column header, I chose user input so I could count the number
 # of calls for a a column header chosen at run-time.
 
@@ -47,7 +45,7 @@ def printCalls (callsDict, fieldLabel):
     # print 
     for k, v in sorted_calls:
         print (fieldLabel + " " + k + "  has " + str(v) + " calls")
-    print
+    print ()
 
 
 
@@ -60,14 +58,15 @@ with f_in:
 
     # store column headers into headers to print as list for user to 
     # select from
-    header = reader.next ()
+    header = next(reader)
+    #header = reader.next ()
     headers = 'list of field: '
     for k in header.keys():
         headers += k + ' '
 
     while True:
         print (headers)
-        response = raw_input ("Enter field name or q to quit: ")
+        response = input ("Enter field name or q to quit: ")
         if response == 'q':
             break
         if response.upper() in headers: 
